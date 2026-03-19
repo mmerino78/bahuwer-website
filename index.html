@@ -78,22 +78,29 @@
         /* The canvas showing the PDF */
         canvas {
             box-shadow: 0 10px 40px rgba(0,0,0,0.7);
-            transition: opacity 0.3s ease;
+            transition: opacity 0.15s ease-out, transform 0.15s ease-out;
             max-height: 90vh; /* Leave slight padding top/bottom */
             max-width: 90vw;
-            pointer-events: none; /* Let clicks pass through if needed */
+            cursor: pointer; /* Indicar que es clickeable */
+        }
+        canvas.fade-out {
+            opacity: 0;
+            transform: scale(0.98) translateX(10px);
+        }
+        canvas.fade-out.back {
+            transform: scale(0.98) translateX(-10px);
         }
         
         .nav-button {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.15);
-            color: white;
-            width: 56px; height: 56px;
+            background: rgba(255,255,255,0.8);
+            border: none;
+            color: #0f172a;
+            width: 64px; height: 64px;
             border-radius: 50%;
-            font-size: 20px;
+            font-size: 28px;
             cursor: pointer;
             z-index: 50;
             display: flex;
@@ -101,17 +108,16 @@
             align-items: center;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             backdrop-filter: blur(4px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
         .nav-button:hover:not(:disabled) {
-            background: rgba(255,255,255,0.25);
+            background: rgba(255,255,255,1);
             transform: translateY(-50%) scale(1.1);
-            box-shadow: 0 0 20px rgba(255,255,255,0.1);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.5);
         }
         .nav-button:disabled {
-            opacity: 0.2;
-            cursor: not-allowed;
-            background: transparent;
-            border-color: rgba(255,255,255,0.05);
+            opacity: 0; /* Ocultar totalmente si está deshabilitado */
+            cursor: default;
         }
         
         #prev-page { left: 40px; }
@@ -180,7 +186,7 @@
 
     <script>
         // Nombre del archivo PDF (debe estar en la misma carpeta o ruta correcta)
-        const url = 'DOSSIER BAHUWER_compressed.pdf';
+        const url = 'dosier.pdf';
         
         let pdfDoc = null,
             pageNum = 1,
@@ -228,6 +234,7 @@
 
                 page.render(renderCtx).promise.then(() => {
                     pageIsRendering = false;
+                    canvas.classList.remove('fade-out', 'back');
                     loadingScreen.style.opacity = '0';
                     setTimeout(() => loadingScreen.style.display = 'none', 300);
 
@@ -245,24 +252,29 @@
             });
         };
 
-        const queueRenderPage = num => {
-            if(pageIsRendering) {
-                pageNumIsPending = num;
-            } else {
-                renderPage(num);
-            }
+        const queueRenderPage = (num, isBack = false) => {
+            if (isBack) canvas.classList.add('back');
+            canvas.classList.add('fade-out');
+            
+            setTimeout(() => {
+                if(pageIsRendering) {
+                    pageNumIsPending = num;
+                } else {
+                    renderPage(num);
+                }
+            }, 150); // Mismo tiempo que CSS transition
         };
 
         const showPrevPage = () => {
-            if(pageNum <= 1) return;
+            if(pageNum <= 1 || canvas.classList.contains('fade-out')) return;
             pageNum--;
-            queueRenderPage(pageNum);
+            queueRenderPage(pageNum, true);
         };
 
         const showNextPage = () => {
-            if(pageNum >= pdfDoc.numPages) return;
+            if(pageNum >= pdfDoc.numPages || canvas.classList.contains('fade-out')) return;
             pageNum++;
-            queueRenderPage(pageNum);
+            queueRenderPage(pageNum, false);
         };
 
         // Descarga el PDF a la memoria y lo muestra
@@ -278,6 +290,16 @@
         document.querySelector('#prev-page').addEventListener('click', showPrevPage);
         document.querySelector('#next-page').addEventListener('click', showNextPage);
         
+        // Clic directo en el PDF (Mitad derecha avanza, mitad izquierda retrocede)
+        canvas.addEventListener('click', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            if (e.clientX - rect.left > rect.width / 2) {
+                showNextPage();
+            } else {
+                showPrevPage();
+            }
+        });
+
         // Eventos de teclado (para usarlo como presentación Powerpoint)
         document.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === 'Space') showNextPage();
