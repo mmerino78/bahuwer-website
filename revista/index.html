@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revista 3D | Bahuwer</title>
+    
+    <!-- dFlip CSS (Versión Lite Gratuita para el efecto Revista 3D) -->
+    <link href="https://unpkg.com/@dearflip/dearflip-jquery-lite@latest/css/dflip.min.css" rel="stylesheet" type="text/css">
+    <link href="https://unpkg.com/@dearflip/dearflip-jquery-lite@latest/css/themify-icons.min.css" rel="stylesheet" type="text/css">
+    
+    <style>
+      body, html { 
+          margin: 0; 
+          padding: 0; 
+          height: 100vh; 
+          width: 100vw;
+          background-color: #0f172a; 
+          overflow: hidden;
+      }
+      .container { 
+          height: 100vh; 
+          width: 100vw; 
+      }
+      /* Forzar que la revista ocupe toda la pantalla */
+      ._df_book { 
+          height: 100vh !important; 
+          width: 100vw !important;
+      }
+      
+      /* Estética oscura para que coincida con Bahuwer */
+      .df-ui-wrapper {
+          background-color: transparent !important;
+      }
+    </style>
+</head>
+<body>
+    <div class="container">
+       <!-- Apunta mágicamente al dosier.pdf que está en la carpeta raíz (un nivel arriba) -->
+       <div class="_df_book" webgl="true" backgroundcolor="#0f172a" source="../dosier.pdf" id="df_manual_book"></div>
+    </div>
+
+    <!-- jQuery & dFlip JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://unpkg.com/@dearflip/dearflip-jquery-lite@latest/js/dflip.min.js"></script>
+</body>
+</html>
