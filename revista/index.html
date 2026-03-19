@@ -6,8 +6,8 @@
     <title>Revista 3D | Bahuwer</title>
     
     <!-- dFlip CSS (Versión Lite Gratuita para el efecto Revista 3D) -->
-    <link href="https://cdn.jsdelivr.net/npm/@dearhive/dearflip-jquery-flipbook@1.7.3/css/dflip.min.css" rel="stylesheet" type="text/css">
-    <link href="https://cdn.jsdelivr.net/npm/@dearhive/dearflip-jquery-flipbook@1.7.3/css/themify-icons.min.css" rel="stylesheet" type="text/css">
+    <link href="/revista/assets/css/dflip.min.css" rel="stylesheet" type="text/css">
+    <link href="/revista/assets/css/themify-icons.min.css" rel="stylesheet" type="text/css">
     
     <style>
       body, html { 
@@ -43,9 +43,9 @@
     <!-- jQuery & dFlip JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
-        // CRÍTICO: Decirle a dFlip que busque sus archivos internos en el CDN, no en tu servidor Vercel
-        var dFlipLocation = "https://cdn.jsdelivr.net/npm/@dearhive/dearflip-jquery-flipbook@1.7.3/";
+        // CRÍTICO: Usar los assets locales en lugar del CDN caído
+        var dFlipLocation = "/revista/assets/";
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/@dearhive/dearflip-jquery-flipbook@1.7.3/js/dflip.min.js"></script>
+    <script src="/revista/assets/js/dflip.min.js"></script>
 </body>
 </html>
