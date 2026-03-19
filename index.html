@@ -39,6 +39,25 @@
             font-size: 1.5rem;
             font-weight: 500;
             color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+        }
+
+        .btn-dossier {
+            display: inline-block;
+            background: #3b82f6;
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: background 0.2s, transform 0.2s;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-dossier:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
         }
     </style>
 </head>
@@ -49,5 +68,6 @@
          class="construction-img"
          loading="lazy">
     <h1>En construcción</h1>
+    <a href="viewer.html" class="btn-dossier">📖 Ver Dossier Corporativo</a>
 </body>
 </html>
