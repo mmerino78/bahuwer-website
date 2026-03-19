@@ -36,12 +36,16 @@
 </head>
 <body>
     <div class="container">
-       <!-- Apunta mágicamente al dosier.pdf que está en la carpeta raíz (un nivel arriba) -->
-       <div class="_df_book" webgl="true" backgroundcolor="#0f172a" source="../dosier.pdf" id="df_manual_book"></div>
+       <!-- Ruta absoluta a la raíz de dominio -->
+       <div class="_df_book" webgl="true" backgroundcolor="#0f172a" source="/dosier.pdf" id="df_manual_book"></div>
     </div>
 
     <!-- jQuery & dFlip JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        // CRÍTICO: Decirle a dFlip que busque sus archivos internos en el CDN, no en tu servidor Vercel
+        var dFlipLocation = "https://unpkg.com/@dearflip/dearflip-jquery-lite@latest/";
+    </script>
     <script src="https://unpkg.com/@dearflip/dearflip-jquery-lite@latest/js/dflip.min.js"></script>
 </body>
 </html>
