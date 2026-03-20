@@ -1,319 +1,51 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dossier Coporativo | Bahuwer</title>
+    <title>Dossier Corporativo | Bahuwer</title>
+    
+    <!-- dFlip CSS (Versión Lite Gratuita para el efecto Revista 3D) -->
+    <link href="/assets/css/dflip.min.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/themify-icons.min.css" rel="stylesheet" type="text/css">
+    
     <style>
-        body, html {
-            margin: 0; padding: 0;
-            width: 100%; height: 100%;
-            background-color: #0f172a;
-            color: white;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 2rem;
-            background-color: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            z-index: 100;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        .header h1 {
-            margin: 0;
-            font-size: 1.1rem;
-            font-weight: 500;
-            letter-spacing: 1px;
-            color: #f8fafc;
-        }
-        .controls {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            font-size: 0.95rem;
-            color: #cbd5e1;
-            background: rgba(255,255,255,0.1);
-            padding: 6px 16px;
-            border-radius: 20px;
-        }
-        #page-num {
-            font-weight: 600;
-            color: #fff;
-        }
-        .header-actions a.close-btn {
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(255,255,255,0.15);
-            color: white;
-            padding: 8px 24px;
-            border-radius: 6px;
-            cursor: pointer;
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: all 0.2s;
-        }
-        .header-actions a.close-btn:hover {
-            background: rgba(255,255,255,0.15);
-        }
-        
-        .main-container {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            padding-top: 60px; /* space for header */
-            height: calc(100vh - 60px);
-        }
-        
-        /* The canvas showing the PDF */
-        canvas {
-            box-shadow: 0 10px 40px rgba(0,0,0,0.7);
-            transition: opacity 0.15s ease-out, transform 0.15s ease-out;
-            max-height: 90vh; /* Leave slight padding top/bottom */
-            max-width: 90vw;
-            cursor: pointer; /* Indicar que es clickeable */
-        }
-        canvas.fade-out {
-            opacity: 0;
-            transform: scale(0.98) translateX(10px);
-        }
-        canvas.fade-out.back {
-            transform: scale(0.98) translateX(-10px);
-        }
-        
-        .nav-button {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(255,255,255,0.8);
-            border: none;
-            color: #0f172a;
-            width: 64px; height: 64px;
-            border-radius: 50%;
-            font-size: 28px;
-            cursor: pointer;
-            z-index: 50;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(4px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
-        .nav-button:hover:not(:disabled) {
-            background: rgba(255,255,255,1);
-            transform: translateY(-50%) scale(1.1);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.5);
-        }
-        .nav-button:disabled {
-            opacity: 0; /* Ocultar totalmente si está deshabilitado */
-            cursor: default;
-        }
-        
-        #prev-page { left: 40px; }
-        #next-page { right: 40px; }
-        
-        /* Loading overlay */
-        .loading-screen {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: #0f172a;
-            z-index: 200;
-            color: #94a3b8;
-            font-size: 0.9rem;
-            gap: 15px;
-        }
-        .spinner {
-            width: 40px; height: 40px;
-            border: 3px solid rgba(255,255,255,0.05);
-            border-left-color: #3b82f6;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-
-        /* Mobile specific adjustments */
-        @media (max-width: 768px) {
-            .header { padding: 1rem; }
-            .header h1 { display: none; }
-            .nav-button { width: 44px; height: 44px; }
-            #prev-page { left: 10px; }
-            #next-page { right: 10px; }
-            canvas { max-width: 95vw; }
-        }
+      body, html { 
+          margin: 0; 
+          padding: 0; 
+          height: 100vh; 
+          width: 100vw;
+          background-color: #0f172a; 
+          overflow: hidden;
+      }
+      .container { 
+          height: 100vh; 
+          width: 100vw; 
+      }
+      /* Forzar que la revista ocupe toda la pantalla */
+      ._df_book { 
+          height: 100vh !important; 
+          width: 100vw !important;
+      }
+      
+      /* Estética oscura para que coincida con Bahuwer */
+      .df-ui-wrapper {
+          background-color: transparent !important;
+      }
     </style>
-    <!-- Cargando PDF.js desde CDN oficial -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-    <script>
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-    </script>
 </head>
 <body>
-    <div id="loading" class="loading-screen">
-        <div class="spinner"></div>
-        <p>Cargando dossier...</p>
+    <div class="container">
+       <!-- Ruta absoluta a la raíz de dominio -->
+       <div class="_df_book" webgl="true" backgroundcolor="#0f172a" source="/dosier.pdf" id="df_manual_book"></div>
     </div>
 
-    <header class="header">
-        <h1>Dossier Corporativo Bahuwer</h1>
-        <div class="controls">
-            <span>Pg. <span id="page-num"></span> de <span id="page-count"></span></span>
-        </div>
-        <div class="header-actions">
-            <!-- La portada no necesita botón regresar -->
-        </div>
-    </header>
-
-    <div class="main-container">
-        <button id="prev-page" class="nav-button" aria-label="Anterior">&#10094;</button>
-        <canvas id="pdf-render"></canvas>
-        <button id="next-page" class="nav-button" aria-label="Siguiente">&#10095;</button>
-    </div>
-
+    <!-- jQuery & dFlip JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
-        // Nombre del archivo PDF (debe estar en la misma carpeta o ruta correcta)
-        const url = 'dosier.pdf';
-        
-        let pdfDoc = null,
-            pageNum = 1,
-            pageIsRendering = false,
-            pageNumIsPending = null;
-
-        // Escala extra alta para darle muchísima nitidez en el Canvas
-        const HD_SCALE = 2.5; 
-        
-        const canvas = document.querySelector('#pdf-render');
-        const ctx = canvas.getContext('2d');
-        const loadingScreen = document.getElementById('loading');
-
-        // Renderiza la página solicitada
-        const renderPage = num => {
-            pageIsRendering = true;
-
-            pdfDoc.getPage(num).then(page => {
-                const viewportRaw = page.getViewport({ scale: 1 });
-                const mainContainer = document.querySelector('.main-container');
-                
-                // Calcula cuánto debemos reducirlo por CSS para que quepa en la pantalla actual
-                const containerWidth = mainContainer.clientWidth - (window.innerWidth < 768 ? 40 : 160);
-                const containerHeight = mainContainer.clientHeight - 40;
-                
-                const fitScale = Math.min(
-                    containerWidth / viewportRaw.width, 
-                    containerHeight / viewportRaw.height
-                );
-                
-                // Renderizado interno de muy alta calidad
-                const viewport = page.getViewport({ scale: HD_SCALE });
-                canvas.height = viewport.height;
-                canvas.width = viewport.width;
-                
-                // Tamaño visual (CSS) restringido al viewport
-                const CSSviewport = page.getViewport({ scale: fitScale });
-                canvas.style.width = CSSviewport.width + 'px';
-                canvas.style.height = CSSviewport.height + 'px';
-
-                const renderCtx = {
-                    canvasContext: ctx,
-                    viewport: viewport
-                };
-
-                page.render(renderCtx).promise.then(() => {
-                    pageIsRendering = false;
-                    canvas.classList.remove('fade-out', 'back');
-                    loadingScreen.style.opacity = '0';
-                    setTimeout(() => loadingScreen.style.display = 'none', 300);
-
-                    if(pageNumIsPending !== null) {
-                        renderPage(pageNumIsPending);
-                        pageNumIsPending = null;
-                    }
-                });
-
-                document.querySelector('#page-num').textContent = num;
-                
-                // Actualiza estado visual de los botones
-                document.querySelector('#prev-page').disabled = num <= 1;
-                document.querySelector('#next-page').disabled = num >= pdfDoc.numPages;
-            });
-        };
-
-        const queueRenderPage = (num, isBack = false) => {
-            if (isBack) canvas.classList.add('back');
-            canvas.classList.add('fade-out');
-            
-            setTimeout(() => {
-                if(pageIsRendering) {
-                    pageNumIsPending = num;
-                } else {
-                    renderPage(num);
-                }
-            }, 150); // Mismo tiempo que CSS transition
-        };
-
-        const showPrevPage = () => {
-            if(pageNum <= 1 || canvas.classList.contains('fade-out')) return;
-            pageNum--;
-            queueRenderPage(pageNum, true);
-        };
-
-        const showNextPage = () => {
-            if(pageNum >= pdfDoc.numPages || canvas.classList.contains('fade-out')) return;
-            pageNum++;
-            queueRenderPage(pageNum, false);
-        };
-
-        // Descarga el PDF a la memoria y lo muestra
-        pdfjsLib.getDocument(url).promise.then(pdfDoc_ => {
-            pdfDoc = pdfDoc_;
-            document.querySelector('#page-count').textContent = pdfDoc.numPages;
-            renderPage(pageNum);
-        }).catch(err => {
-            loadingScreen.innerHTML = '<p style="color:#ef4444">Error al cargar el Dossier PDF.</p><p style="font-size:12px;opacity:0.7">'+err.message+'</p>';
-        });
-
-        // Eventos de click
-        document.querySelector('#prev-page').addEventListener('click', showPrevPage);
-        document.querySelector('#next-page').addEventListener('click', showNextPage);
-        
-        // Clic directo en el PDF (Mitad derecha avanza, mitad izquierda retrocede)
-        canvas.addEventListener('click', (e) => {
-            const rect = canvas.getBoundingClientRect();
-            if (e.clientX - rect.left > rect.width / 2) {
-                showNextPage();
-            } else {
-                showPrevPage();
-            }
-        });
-
-        // Eventos de teclado (para usarlo como presentación Powerpoint)
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === 'Space') showNextPage();
-            if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') showPrevPage();
-        });
-        
-        // Renderizar de nuevo si redimensionan la ventana
-        let resizeTimer;
-        window.addEventListener('resize', () => {
-             clearTimeout(resizeTimer);
-             resizeTimer = setTimeout(() => {
-                 if (!pageIsRendering && pdfDoc) queueRenderPage(pageNum);
-             }, 200);
-        });
+        // CRÍTICO: Usar los assets locales de dFlip
+        var dFlipLocation = "/assets/";
     </script>
+    <script src="/assets/js/dflip.min.js"></script>
 </body>
 </html>
